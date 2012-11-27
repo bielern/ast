@@ -16,12 +16,10 @@ typedef io::JParser::token_type token_type;
 #define YY_NO_UNISTD_H
 
 #define SAVE_STRING \
-    yylval->string = new std::string(yytext, yyleng); \
-    return token::STRING;
+    yylval->string = new std::string(yytext + 1, yyleng - 2);
 
 #define SAVE_WORD \
-    yylval->string = new std::string(yytext, yyleng); \
-    return token::WORD;
+    yylval->string = new std::string(yytext, yyleng); 
 
 %}
 
@@ -53,7 +51,8 @@ typedef io::JParser::token_type token_type;
 INT         [0-9]*
 DOUBLE      [0-9]*\.[0-9]*([eE][+-]?{INT})?
 WORD        [[:alnum:]]*
-STRING      ["][^"\n]*["]
+STRING      ["][^"\n]*["] 
+    /*"*/
 IS          "="
 OBJ_START   \{ 
 OBJ_END     \} 
@@ -65,17 +64,17 @@ COMMENT     {COMMENT_SGN}[^\n]*\n
 
 %%
 
-[ \t\n]     /* eat white space */ { std::cout << "Throw away white space\n"; }
+[ \t\n]     /* eat white space */ 
 {COMMENT}   /* empty */
-{IS}        { std::cout << "I found a =.\n";      return token::IS; }
-{OBJ_START} { std::cout << "I found a {.\n";      return token::OBJ_START; }
-{OBJ_END}   { std::cout << "I found a }.\n";      return token::OBJ_END;   }
-{LST_START} { std::cout << "I found a [.\n";      return token::LST_START; }
-{LST_END}   { std::cout << "I found a ].\n";      return token::LST_END;   }
-{INT}       { std::cout << "I found a int.\n";    SAVE_STRING; }
-{DOUBLE}    { std::cout << "I found a double.\n"; SAVE_STRING; }
-{STRING}    { std::cout << "I found a string.\n"; SAVE_STRING; }
-{WORD}      { std::cout << "I found a word: <" << yytext << ">\n";   SAVE_WORD; }
+{IS}        { return token::IS; }
+{OBJ_START} { return token::OBJ_START; }
+{OBJ_END}   { return token::OBJ_END;   }
+{LST_START} { return token::LST_START; }
+{LST_END}   { return token::LST_END;   }
+{INT}       { SAVE_WORD; return token::STRING; }
+{DOUBLE}    { SAVE_WORD; return token::STRING; }
+{STRING}    { SAVE_STRING; return token::STRING; }
+{WORD}      { SAVE_WORD;   return token::WORD; }
 .           { std::cerr << "Unknown character: " <<  yytext << "\n"; }
 
 %% /*** Additional Code ***/
