@@ -60,12 +60,15 @@ namespace io {
         NodeIterator(Object *object);
         NodeIterator(List *list);
         NodeIterator(Item *item);
+        ~NodeIterator();
+
         NodeIterator &operator++();
         bool operator==(NodeIterator &ni);
         bool operator!=(NodeIterator &ni);
         std::string key();
         void _begin();
         void _end();
+
         // Memeber
         NIOperator *niOperator;
     };

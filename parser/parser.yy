@@ -83,6 +83,10 @@
 %type <value>   item value
 
 %destructor { delete $$; } STRING
+%destructor { delete $$; } DOUBLE
+%destructor { delete $$; } INT
+%destructor { delete $$; } WORD
+%destructor { delete $$; } field
 
 /* Add debug information to states and tokens 
  */

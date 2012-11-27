@@ -7,7 +7,9 @@
 
 namespace io {
 
-    Node::Node (Value *value) : value(value) {
+    Node::Node (Value *value) : 
+        nodeOperator(0),
+        value(value) {
         _init();
     }
     Node::Node(){
@@ -19,6 +21,8 @@ namespace io {
     }
     void Node::_init(){
         if (value){
+            if (nodeOperator)
+                delete nodeOperator;
             switch(value->_type) {
                 case item: {
                                Item *item = static_cast<Item *>(value);
@@ -96,7 +100,8 @@ namespace io {
      ***************************/
 
     NodeIterator::NodeIterator() : 
-        Node(0)
+        Node(0),
+        niOperator(0)
     {}
     NodeIterator::NodeIterator(Object *object) : 
         Node(object)
@@ -113,6 +118,10 @@ namespace io {
     {
         niOperator = new ItemIterator(item);
     }
+    NodeIterator::~NodeIterator() {
+       if (niOperator)
+          delete niOperator;
+    } 
 
     NodeIterator& NodeIterator::operator++() {
         niOperator->next();

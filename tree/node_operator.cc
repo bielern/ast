@@ -228,7 +228,7 @@ namespace io {
     }
     bool ObjectIterator::eq(NIOperator *ni){
         if (this->type == ni->type) {
-            return it->second == static_cast<ObjectIterator *>(ni)->it->second;
+            return it == static_cast<ObjectIterator *>(ni)->it;
         }
         else {
             std::cerr << "Comparing two Iterators of different type!\n";
