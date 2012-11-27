@@ -15,16 +15,24 @@ namespace io {
         "List"
     };
     
-    Value::Value(NodeType t) : _type(t) {}
+    Value::Value(NodeType t) : 
+        _type(t) 
+    {}
 
     Field::Field(std::string key, Value *value) :
         key(key),
         value(value)
     {}
     
-    Item::Item(std::string value) : Value(item), _value(value) {}
+    Item::Item(std::string value, bool _string) : 
+        Value(item), 
+        _value(value),
+        _string(_string)
+    {}
     
-    List::List() : Value(list) {}
+    List::List() : 
+        Value(list) 
+    {}
     List::~List(){
         ListContainer::iterator it = _list.begin(),
             to = _list.end();
@@ -51,7 +59,9 @@ namespace io {
         return _list[i];
     }
     
-    Object::Object() : Value(object) {}
+    Object::Object() : 
+        Value(object) 
+    {}
     Object::~Object(){
         ObjectContainer::iterator it = _fields.begin(),
             to = _fields.end();

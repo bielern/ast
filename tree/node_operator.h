@@ -57,7 +57,7 @@ namespace io {
         Node::iterator begin() const;
         Node::iterator end() const;
         unsigned int size() const ;
-        //std::string ListOperator::str() const;
+        std::string str(int i) const;
         // Member
         List *list;
     };
@@ -66,9 +66,10 @@ namespace io {
 
     struct NIOperator {
         NIOperator(NodeType type);
-        virtual Value *next();
-        virtual Value * _begin();
+        virtual void next();
+        virtual void _begin();
         virtual void _end();
+        virtual Value *value();
         virtual bool at_end();
         virtual bool eq(NIOperator *ni);
         virtual std::string key();
@@ -78,9 +79,10 @@ namespace io {
 
     struct ObjectIterator : public NIOperator {
         ObjectIterator(Object *object);
-        Value *next();
-        Value *_begin();
+        void next();
+        void _begin();
         void _end();
+        Value *value();
         bool at_end();
         bool eq(NIOperator *ni);
         std::string key();
@@ -91,9 +93,10 @@ namespace io {
 
     struct ListIterator : public NIOperator {
         ListIterator(List *list);
-        Value *next();
-        Value *_begin();
+        void next();
+        void _begin();
         void _end();
+        Value *value();
         bool at_end();
         bool eq(NIOperator *ni);
         // Member
@@ -103,9 +106,10 @@ namespace io {
 
     struct ItemIterator : public NIOperator {
         ItemIterator(Item *item);
-        Value *next();
-        Value *_begin();
+        void next();
+        void _begin();
         void _end();
+        Value *value();
         bool at_end();
         bool eq(NIOperator *ni);
         // Member

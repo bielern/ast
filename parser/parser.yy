@@ -54,11 +54,12 @@
 %error-verbose
 
 %union {
-    std::string*    string;
-    struct Object *    object;
-    struct Field*      field;
-    struct Value*      value;
-    int             token;
+    std::string*        string;
+    struct Object *     object;
+    struct List *       list;
+    struct Field*       field;
+    struct Value*       value;
+    int                 token;
 }
 
 %token			END	     0	"end of file"
@@ -73,11 +74,13 @@
 %token <string> 	    DOUBLE		"double"
 %token <string> 	    INT		    "int"
 
-%type <object>	object
-%type <object>	fields
-%type <field>	field
-%type <string>	key
-%type <value>	item value
+%type <object>  object
+%type <list>    list
+%type <list>    values
+%type <object>  fields
+%type <field>   field
+%type <string>  key
+%type <value>   item value
 
 %destructor { delete $$; } STRING
 
@@ -103,27 +106,31 @@
 
 %% /*** Grammar Rules ***/
 
-root: object { driver.root = $1;  
-                          std::cout << "Root Size: " << $1->_fields.size() << "\n";}
+root: object                        { driver.root = $1; }
 
-object: OBJ_START fields OBJ_END {$$ = $2;  
-                          std::cout << "Obj Size: " << $2->_fields.size() << "\n";}
+object: OBJ_START fields OBJ_END    { $$ = $2; }
+      | OBJ_START /****/ OBJ_END    { $$ = new Object(); }
 
-fields: field           { std::cout << "Found a field\n"; $$ = new Object(); $$->push_back(*$1); }
-      | fields field    { std::cout << "Added a field\n"; 
-                          $1->push_back(*$2); 
-                          std::cout << "Size: " << $1->_fields.size() << "\n"; }
+fields: field                       { $$ = new Object(); $$->push_back(*$1); }
+      | fields field                { $1->push_back(*$2); }
 
-field: key IS value     { $$ = new Field(*($1), $3); }
+field: key IS value                 { $$ = new Field(*($1), $3); }
 
-key: WORD               { $$ = $1; }
+key: WORD                           { $$ = $1; }
 
-value: item             { $$ = $1; }
+value: item                         { $$ = $1; }
+     | object                       { $$ = $1; }
+     | list                         { $$ = $1; }
 
-item: STRING            { $$ = new Item(*$1); }
-    | DOUBLE            { $$ = new Item(*$1); }
-    | INT               { $$ = new Item(*$1); }
+item: STRING                        { $$ = new Item(*$1, true); }
+    | DOUBLE                        { $$ = new Item(*$1); }
+    | INT                           { $$ = new Item(*$1); }
 
+list: LST_START values LST_END      { $$ = $2; }
+    | LST_START /****/ LST_END      { $$ = new List(); }
+
+values: value                       { $$ = new List(); $$->push_back($1); }
+      | values value                { $1->push_back($2); }
 
 %% /*** Additional Code ***/
 

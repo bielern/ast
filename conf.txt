@@ -1,5 +1,15 @@
 {
-value = "key"
-double = 1.2
-integer = 3
+ double = 1.2
+ empty = {}
+ integer = 3
+ list = [
+  1
+  2
+  3
+ ]
+ subobj = {
+  newkey = "bla"
+  other = []
+ }
+ value = "key"
 }

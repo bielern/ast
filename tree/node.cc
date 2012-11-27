@@ -115,8 +115,9 @@ namespace io {
     }
 
     NodeIterator& NodeIterator::operator++() {
-        value = niOperator->next();
+        niOperator->next();
         if (! niOperator->at_end())
+            value = niOperator->value();
             _init();
         return *this;
     }
@@ -131,8 +132,9 @@ namespace io {
         return niOperator->key();
     }
     void NodeIterator::_begin(){
-        value = niOperator->_begin();
+        niOperator->_begin();
         if (! niOperator->at_end())
+            value = niOperator->value();
             _init();
     }
     void NodeIterator::_end(){

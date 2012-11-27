@@ -71,7 +71,13 @@ namespace io {
     }
     
     std::string ItemOperator::str(int i) const{
-        return item->_value;
+        std::stringstream ss;
+        if (item->_string)
+            ss << '"';
+        ss << item->_value;
+        if (item->_string)
+            ss << '"';
+        return ss.str();
     }
 
     /* ObjectOperator */
@@ -113,6 +119,9 @@ namespace io {
                 }
                 ss << it.key() << " = " << it.str(i+1) << std::endl;
             }
+            for (int j = 1; j < i; j++){
+                ss << " ";
+            }
         }
         ss << "}";
         return ss.str();
@@ -141,6 +150,27 @@ namespace io {
         return list->_list.size();
     }
 
+    std::string ListOperator::str(int i) const{
+        std::stringstream ss;
+        ss << "[";
+        if (size() > 0){
+            ss <<  std::endl;
+            Node::iterator it = begin(),
+                to = end();
+            for (; it != to; ++it){
+                for (int j = 0; j < i; j++){
+                    ss << " ";
+                }
+                ss <<  it.str(i+1) << std::endl;
+            }
+            for (int j = 1; j < i; j++){
+                ss << " ";
+            }
+        }
+        ss << "]";
+        return ss.str();
+    }
+
     /*************************
      * ITERATORS
      *************************/
@@ -148,16 +178,18 @@ namespace io {
         type(type)
     {
     }
-    Value * NIOperator::next(){
+    void NIOperator::next(){
         std::cerr << "Iterator not implemented for this type!\n";
-        return 0;
     }
-    Value * NIOperator::_begin(){
+    void NIOperator::_begin(){
         std::cerr << "Iterator not implemented for this type!\n";
-        return 0;
     }
     void NIOperator::_end(){
         std::cerr << "Iterator not implemented for this type!\n";
+    }
+    Value * NIOperator::value(){
+        std::cerr << "Iterator not implemented for this type!\n";
+        return 0;
     }
     std::string NIOperator::key(){
         std::cerr << "Key not implemented for this type!\n";
@@ -179,15 +211,16 @@ namespace io {
         object(object),
         it (0)
     {}
-    Value * ObjectIterator::_begin(){
+    void ObjectIterator::_begin(){
         it = object->_fields.begin();
-        return it->second;
     }
     void ObjectIterator::_end(){
         it = object->_fields.end();
     }
-    Value *ObjectIterator::next(){
+    void ObjectIterator::next(){
         it++;
+    }
+    Value * ObjectIterator::value(){
         return it->second;
     }
     std::string ObjectIterator::key(){
@@ -213,15 +246,16 @@ namespace io {
         list(list),
         it (0)
     {}
-    Value * ListIterator::_begin(){
+    void ListIterator::_begin(){
         it = list->_list.begin();
-        return *it;
     }
     void ListIterator::_end(){
         it = list->_list.end();
     }
-    Value *ListIterator::next(){
+    void ListIterator::next(){
         it++;
+    }
+    Value * ListIterator::value(){
         return *it;
     }
     bool ListIterator::eq(NIOperator *ni){
@@ -239,15 +273,16 @@ namespace io {
         item(item),
         _at_end(false)
     {}
-    Value *ItemIterator::next(){
+    void ItemIterator::next(){
         _at_end = true;
-        return item;
     }
-    Value *ItemIterator::_begin(){
-        return item;
+    void ItemIterator::_begin(){
     }
     void ItemIterator::_end(){
         _at_end = true;
+    }
+    Value * ItemIterator::value(){
+        return item;
     }
     bool ItemIterator::at_end(){
         return _at_end;
