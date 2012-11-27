@@ -1,6 +1,9 @@
 #include "node_operator.h"
 
 namespace io {
+    /*************************
+     * OPERATORS
+     *************************/
     Node NodeOperator::operator[](std::string key){
         std::cerr << "Operator[](string) not implemented for this type!\n";
         return Node(0);
@@ -27,17 +30,21 @@ namespace io {
         std::cerr << "Function push_back not implemented for this type!\n";
     }
     
-    Node::iterator NodeOperator::begin(){
+    Node::iterator NodeOperator::begin() const {
         std::cerr << "Function begin not implemented for this type!\n";
         return NodeIterator();
     }
-    Node::iterator NodeOperator::end(){
+    Node::iterator NodeOperator::end() const {
         std::cerr << "Function end not implemented for this type!\n";
         return NodeIterator();
     }
-    unsigned int NodeOperator::size(){
+    unsigned int NodeOperator::size() const {
         std::cerr << "Function size not implemented for this type!\n";
         return 0;
+    }
+
+    std::string NodeOperator::str(int i) const{
+        return std::string("Not implemendted");
     }
 
     /* ItemOperator */
@@ -49,7 +56,24 @@ namespace io {
     std::string ItemOperator::get(){
         return item->_value;
     }
+    Node::iterator ItemOperator::begin() const {
+        Node::iterator ni(item);
+        ni._begin();
+        return ni;
+    }
+    Node::iterator ItemOperator::end() const { 
+        Node::iterator ni(item);
+        ni._end();
+        return ni;
+    }
+    unsigned int ItemOperator::size() const {
+        return 1;
+    }
     
+    std::string ItemOperator::str(int i) const{
+        return item->_value;
+    }
+
     /* ObjectOperator */
     
     ObjectOperator::ObjectOperator(Object *object) : object(object) {}
@@ -62,15 +86,36 @@ namespace io {
     void ObjectOperator::push_back(Field *field){
         object->push_back(field->key, field->value);
     }
-    Node::iterator ObjectOperator::begin(){
+    Node::iterator ObjectOperator::begin() const {
         Node::iterator ni(object);
         ni._begin();
         return ni;
     }
-    Node::iterator ObjectOperator::end(){
+    Node::iterator ObjectOperator::end() const { 
         Node::iterator ni(object);
         ni._end();
         return ni;
+    }
+    unsigned int ObjectOperator::size() const {
+        return object->_fields.size();
+    }
+
+    std::string ObjectOperator::str(int i) const{
+        std::stringstream ss;
+        ss << "{";
+        if (size() > 0){
+            ss << std::endl;
+            Node::iterator it = begin(),
+                to = end();
+            for (; it != to; ++it){
+                for (int j = 0; j < i; j++){
+                    ss << " ";
+                }
+                ss << it.key() << " = " << it.str(i+1) << std::endl;
+            }
+        }
+        ss << "}";
+        return ss.str();
     }
     
     /* ListOperator */
@@ -82,10 +127,23 @@ namespace io {
     void ListOperator::push_back(Value *value){
         list->push_back(value);
     }
+    Node::iterator ListOperator::begin() const {
+        Node::iterator ni(list);
+        ni._begin();
+        return ni;
+    }
+    Node::iterator ListOperator::end() const { 
+        Node::iterator ni(list);
+        ni._end();
+        return ni;
+    }
+    unsigned int ListOperator::size() const {
+        return list->_list.size();
+    }
 
     /*************************
      * ITERATORS
-     */
+     *************************/
     NIOperator::NIOperator(NodeType type) :
         type(type)
     {

@@ -2,6 +2,7 @@
 #define NODE_H
 
 #include <sstream>
+#include <iostream>
 #include <string>
 
 #include "ast.h"
@@ -45,6 +46,8 @@ namespace io {
         unsigned int size();
     
         void del();
+
+        std::string str(int i) const;
     
         // Memeber
         NodeOperator *nodeOperator;
@@ -66,5 +69,7 @@ namespace io {
         // Memeber
         NIOperator *niOperator;
     };
+
 }
+std::ostream & operator<< (std::ostream &out, const io::Node &node);
 #endif

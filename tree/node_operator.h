@@ -18,15 +18,21 @@ namespace io {
         virtual void push_back(Field *field);
         virtual void push_back(Value *value);
 
-        virtual Node::iterator begin();
-        virtual Node::iterator end();
-        virtual unsigned int size();
+        virtual Node::iterator begin() const;
+        virtual Node::iterator end() const;
+        virtual unsigned int size() const ;
+
+        virtual std::string str(int i) const;
     };
     
     struct ItemOperator : public NodeOperator {
         ItemOperator(Item *item);
         void set(std::string value);
+        Node::iterator begin() const;
+        Node::iterator end() const;
+        unsigned int size() const ;
         std::string get();
+        std::string str(int i) const;
         // Member
         Item *item;
     };
@@ -36,8 +42,10 @@ namespace io {
         Node operator[](std::string key);
         void push_back(std::string key, Value *value);
         void push_back(Field *field);
-        Node::iterator begin();
-        Node::iterator end();
+        Node::iterator begin() const;
+        Node::iterator end() const;
+        unsigned int size() const ;
+        std::string str(int i) const;
         // Member
         Object *object;
     };
@@ -46,6 +54,10 @@ namespace io {
         ListOperator(List *list);
         Node operator[](unsigned int i);
         void push_back(Value *value);
+        Node::iterator begin() const;
+        Node::iterator end() const;
+        unsigned int size() const ;
+        //std::string ListOperator::str() const;
         // Member
         List *list;
     };

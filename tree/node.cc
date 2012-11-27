@@ -87,6 +87,10 @@ namespace io {
         delete value;
     }
 
+    std::string Node::str(int i) const {
+        return nodeOperator->str(i);
+    }
+
     /***************************
      * NODE ITERATOR
      ***************************/
@@ -134,4 +138,12 @@ namespace io {
     void NodeIterator::_end(){
         niOperator->_end();
     }
+}
+
+/*************************
+ * Out put stream
+ ************************/
+std::ostream & operator<< (std::ostream &out, const io::Node &node){
+    out << node.str(1);
+    return out;
 }
