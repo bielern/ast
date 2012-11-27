@@ -71,8 +71,8 @@ COMMENT     {COMMENT_SGN}[^\n]*\n
 {OBJ_END}   { return token::OBJ_END;   }
 {LST_START} { return token::LST_START; }
 {LST_END}   { return token::LST_END;   }
-{INT}       { SAVE_WORD; return token::STRING; }
-{DOUBLE}    { SAVE_WORD; return token::STRING; }
+{INT}       { SAVE_WORD; return token::INT; }
+{DOUBLE}    { SAVE_WORD; return token::DOUBLE; }
 {STRING}    { SAVE_STRING; return token::STRING; }
 {WORD}      { SAVE_WORD;   return token::WORD; }
 .           { std::cerr << "Unknown character: " <<  yytext << "\n"; }

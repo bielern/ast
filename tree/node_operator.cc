@@ -27,6 +27,20 @@ namespace io {
         std::cerr << "Function push_back not implemented for this type!\n";
     }
     
+    Node::iterator NodeOperator::begin(){
+        std::cerr << "Function begin not implemented for this type!\n";
+        return NodeIterator();
+    }
+    Node::iterator NodeOperator::end(){
+        std::cerr << "Function end not implemented for this type!\n";
+        return NodeIterator();
+    }
+    unsigned int NodeOperator::size(){
+        std::cerr << "Function size not implemented for this type!\n";
+        return 0;
+    }
+
+    /* ItemOperator */
     
     ItemOperator::ItemOperator(Item *item) : item(item) {}
     void ItemOperator::set(std::string value){
@@ -36,6 +50,7 @@ namespace io {
         return item->_value;
     }
     
+    /* ObjectOperator */
     
     ObjectOperator::ObjectOperator(Object *object) : object(object) {}
     Node ObjectOperator::operator[](std::string key){
@@ -47,7 +62,18 @@ namespace io {
     void ObjectOperator::push_back(Field *field){
         object->push_back(field->key, field->value);
     }
+    Node::iterator ObjectOperator::begin(){
+        Node::iterator ni(object);
+        ni._begin();
+        return ni;
+    }
+    Node::iterator ObjectOperator::end(){
+        Node::iterator ni(object);
+        ni._end();
+        return ni;
+    }
     
+    /* ListOperator */
     
     ListOperator::ListOperator(List *list) : list(list) {}
     Node ListOperator::operator[](unsigned int i){
@@ -56,5 +82,125 @@ namespace io {
     void ListOperator::push_back(Value *value){
         list->push_back(value);
     }
+
+    /*************************
+     * ITERATORS
+     */
+    NIOperator::NIOperator(NodeType type) :
+        type(type)
+    {
+    }
+    Value * NIOperator::next(){
+        std::cerr << "Iterator not implemented for this type!\n";
+        return 0;
+    }
+    Value * NIOperator::_begin(){
+        std::cerr << "Iterator not implemented for this type!\n";
+        return 0;
+    }
+    void NIOperator::_end(){
+        std::cerr << "Iterator not implemented for this type!\n";
+    }
+    std::string NIOperator::key(){
+        std::cerr << "Key not implemented for this type!\n";
+        return std::string("Key not implemented for this type");
+    }
+    bool NIOperator::eq(NIOperator *ni){
+        std::cerr << "Equality not implemented for this type!\n";
+        return false;
+    }
+    bool NIOperator::at_end(){
+        std::cerr << "at_end not implemented for this type!\n";
+        return false;
+    }
+
+    /* ObjectIterator */
+
+    ObjectIterator::ObjectIterator(Object *object) :
+        NIOperator(io::object),
+        object(object),
+        it (0)
+    {}
+    Value * ObjectIterator::_begin(){
+        it = object->_fields.begin();
+        return it->second;
+    }
+    void ObjectIterator::_end(){
+        it = object->_fields.end();
+    }
+    Value *ObjectIterator::next(){
+        it++;
+        return it->second;
+    }
+    std::string ObjectIterator::key(){
+        return it->first;
+    }
+    bool ObjectIterator::eq(NIOperator *ni){
+        if (this->type == ni->type) {
+            return it->second == static_cast<ObjectIterator *>(ni)->it->second;
+        }
+        else {
+            std::cerr << "Comparing two Iterators of different type!\n";
+            return false;
+        }
+    }
+    bool ObjectIterator::at_end(){
+        return it == object->_fields.end();
+    }
+
+    /* ListIterator */
+
+    ListIterator::ListIterator(List *list) :
+        NIOperator(io::list),
+        list(list),
+        it (0)
+    {}
+    Value * ListIterator::_begin(){
+        it = list->_list.begin();
+        return *it;
+    }
+    void ListIterator::_end(){
+        it = list->_list.end();
+    }
+    Value *ListIterator::next(){
+        it++;
+        return *it;
+    }
+    bool ListIterator::eq(NIOperator *ni){
+        // Dangerous!
+        return it == static_cast<ListIterator *>(ni)->it;
+    }
+    bool ListIterator::at_end(){
+        return it == list->_list.end();
+    }
+
+    /* ItemIterator */
     
+    ItemIterator::ItemIterator(Item *item) :
+        NIOperator(io::item),
+        item(item),
+        _at_end(false)
+    {}
+    Value *ItemIterator::next(){
+        _at_end = true;
+        return item;
+    }
+    Value *ItemIterator::_begin(){
+        return item;
+    }
+    void ItemIterator::_end(){
+        _at_end = true;
+    }
+    bool ItemIterator::at_end(){
+        return _at_end;
+    }
+    bool ItemIterator::eq(NIOperator *ni){
+        if (this->type == ni->type) {
+            return _at_end == static_cast<ItemIterator *>(ni)->_at_end;
+        }
+        else {
+            std::cerr << "Comparing two Iterators of different type!\n";
+            return false;
+        }
+    }
 }

@@ -8,9 +8,15 @@
 
 namespace io {
     struct NodeOperator;
+    struct NodeIterator;
     
     struct Node {
         Node (Value *value);
+        Node(); // TODO: error, catch somehow
+        ~Node();
+        void _init();
+        void operator=(Value *value);
+        void operator=(Node &other);
         Node operator[](std::string key);
         Node operator[](unsigned int i);
         template<typename T>
@@ -32,13 +38,33 @@ namespace io {
         void push_back(std::string key, Value *value);
         void push_back(Field *field);
         void push_back(Value *value);
+
+        typedef NodeIterator iterator;
+        iterator begin();
+        iterator end();
+        unsigned int size();
     
         void del();
     
+        // Memeber
         NodeOperator *nodeOperator;
         Value *value;
     };
-    
-    
+
+    struct NIOperator;
+    struct NodeIterator : public Node {
+        NodeIterator();
+        NodeIterator(Object *object);
+        NodeIterator(List *list);
+        NodeIterator(Item *item);
+        NodeIterator &operator++();
+        bool operator==(NodeIterator &ni);
+        bool operator!=(NodeIterator &ni);
+        std::string key();
+        void _begin();
+        void _end();
+        // Memeber
+        NIOperator *niOperator;
+    };
 }
 #endif

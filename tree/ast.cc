@@ -5,6 +5,9 @@
 
 #include "ast.h"
 
+// #define DEBUG(x) std::cout << x << "\n";
+#define DEBUG(x) 
+
 namespace io {
     std::string typeNames[] = {
         "Item",
@@ -23,10 +26,11 @@ namespace io {
     
     List::List() : Value(list) {}
     List::~List(){
-        std::vector<Value *>::iterator it = _list.begin(),
+        ListContainer::iterator it = _list.begin(),
             to = _list.end();
         for (; it != to; it++){
-            delete *it;
+            if (*it)
+                delete *it;
         }
     }
     void List::push_back(Value *value){
@@ -49,10 +53,11 @@ namespace io {
     
     Object::Object() : Value(object) {}
     Object::~Object(){
-        std::map<std::string, Value *>::iterator it = _fields.begin(),
+        ObjectContainer::iterator it = _fields.begin(),
             to = _fields.end();
         for (; it != to; it++){
-            delete it->second;
+            if (it->second)
+                delete it->second;
         }
     }
     
@@ -60,6 +65,7 @@ namespace io {
         _fields[key] = value;
     }
     void Object::push_back(Field &field){
+        DEBUG("Added Field " << field.key << " with type " << typeNames[field.value->_type]);
         _fields[field.key] = field.value;
     }
     Value * Object::operator[](std::string key){

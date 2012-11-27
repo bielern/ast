@@ -2,7 +2,7 @@ FLEXOBJ=parser/scanner.o
 BISONOBJ=parser/parser.o
 
 CXX=g++
-CXXFLAGS=-Wall #-o $(NAME)
+CXXFLAGS=-Wall -g #-o $(NAME)
 PARSEROBJ=$(BISONOBJ) $(FLEXOBJ) parser/driver.o 
 TREEOBJ=tree/ast.o tree/node.o tree/node_operator.o
 OBJECTS=$(TREEOBJ) $(PARSEROBJ) test.o

@@ -23,7 +23,7 @@
 %define parse.trace
 
 /* start symbol is named "start" */
-%start fields
+%start root
 
 /* write out a header file containing the token defines */
 %defines
@@ -55,6 +55,7 @@
 
 %union {
     std::string*    string;
+    struct Object *    object;
     struct Field*      field;
     struct Value*      value;
     int             token;
@@ -69,7 +70,11 @@
 %token			LST_END
 %token <string> 	    STRING		"string"
 %token <string> 	    WORD		"word"
+%token <string> 	    DOUBLE		"double"
+%token <string> 	    INT		    "int"
 
+%type <object>	object
+%type <object>	fields
 %type <field>	field
 %type <string>	key
 %type <value>	item value
@@ -98,9 +103,16 @@
 
 %% /*** Grammar Rules ***/
 
+root: object { driver.root = $1;  
+                          std::cout << "Root Size: " << $1->_fields.size() << "\n";}
 
-fields: /* empty */
-      | field fields    { driver.root.push_back($1); }
+object: OBJ_START fields OBJ_END {$$ = $2;  
+                          std::cout << "Obj Size: " << $2->_fields.size() << "\n";}
+
+fields: field           { std::cout << "Found a field\n"; $$ = new Object(); $$->push_back(*$1); }
+      | fields field    { std::cout << "Added a field\n"; 
+                          $1->push_back(*$2); 
+                          std::cout << "Size: " << $1->_fields.size() << "\n"; }
 
 field: key IS value     { $$ = new Field(*($1), $3); }
 
@@ -109,6 +121,8 @@ key: WORD               { $$ = $1; }
 value: item             { $$ = $1; }
 
 item: STRING            { $$ = new Item(*$1); }
+    | DOUBLE            { $$ = new Item(*$1); }
+    | INT               { $$ = new Item(*$1); }
 
 
 %% /*** Additional Code ***/
