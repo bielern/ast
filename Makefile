@@ -19,7 +19,7 @@ PARSERFILES=parser/parser.cc parser/scanner.cc
 #main: $(OBJECTS)
 #	$(CXX) $(CXXFLAGS) $(OBJECTS)
 
-all:  bison flex $(OBJECTS)
+all:  clean bison flex $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -o test $(OBJECTS)
 
 bison:

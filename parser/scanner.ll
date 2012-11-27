@@ -61,11 +61,16 @@ LST_END     \]
 COMMENT_SGN "//"
 COMMENT     {COMMENT_SGN}[^\n]*\n
 
+%{
+    // reset location
+    // yylloc->step()
+%}
 
 %%
 
-[ \t\n]     /* eat white space */ 
-{COMMENT}   /* empty */
+[ \t\r]     { yylloc->step();                        } 
+[ \n]       { yylloc->lines(yyleng); yylloc->step(); } 
+{COMMENT}   { yylloc->lines(yyleng); yylloc->step(); }
 {IS}        { return token::IS; }
 {OBJ_START} { return token::OBJ_START; }
 {OBJ_END}   { return token::OBJ_END;   }

@@ -74,10 +74,8 @@
 %token <string> 	    DOUBLE		"double"
 %token <string> 	    INT		    "int"
 
-%type <object>  object
-%type <list>    list
-%type <list>    values
-%type <object>  fields
+%type <object>  object  fields
+%type <list>    list    values
 %type <field>   field
 %type <string>  key
 %type <value>   item value
@@ -115,10 +113,10 @@ root: object                        { driver.root = $1; }
 object: OBJ_START fields OBJ_END    { $$ = $2; }
       | OBJ_START /****/ OBJ_END    { $$ = new Object(); }
 
-fields: field                       { $$ = new Object(); $$->push_back(*$1); }
-      | fields field                { $1->push_back(*$2); }
+fields: field                       { $$ = new Object(); $$->push_back(*$1); delete $1; }
+      | fields field                { $1->push_back(*$2); delete $2; }
 
-field: key IS value                 { $$ = new Field(*($1), $3); }
+field: key IS value                 { $$ = new Field(*($1), $3); delete $1; }
 
 key: WORD                           { $$ = $1; }
 
@@ -126,9 +124,9 @@ value: item                         { $$ = $1; }
      | object                       { $$ = $1; }
      | list                         { $$ = $1; }
 
-item: STRING                        { $$ = new Item(*$1, true); }
-    | DOUBLE                        { $$ = new Item(*$1); }
-    | INT                           { $$ = new Item(*$1); }
+item: STRING                        { $$ = new Item(*$1, true); delete $1; }
+    | DOUBLE                        { $$ = new Item(*$1);       delete $1; }
+    | INT                           { $$ = new Item(*$1);       delete $1; }
 
 list: LST_START values LST_END      { $$ = $2; }
     | LST_START /****/ LST_END      { $$ = new List(); }
