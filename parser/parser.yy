@@ -64,7 +64,7 @@
 
 %token			END	     0	"end of file"
 %token			EOL		"end of line"
-%token			IS
+%token			IS      "="
 %token			OBJ_START
 %token			OBJ_END
 %token			LST_START
@@ -114,7 +114,7 @@ object: OBJ_START fields OBJ_END    { $$ = $2; }
       | OBJ_START /****/ OBJ_END    { $$ = new Object(); }
 
 fields: field                       { $$ = new Object(); $$->push_back(*$1); delete $1; }
-      | fields field                { $1->push_back(*$2); delete $2; }
+      | fields field                {                    $1->push_back(*$2); delete $2; }
 
 field: key IS value                 { $$ = new Field(*($1), $3); delete $1; }
 
@@ -132,7 +132,7 @@ list: LST_START values LST_END      { $$ = $2; }
     | LST_START /****/ LST_END      { $$ = new List(); }
 
 values: value                       { $$ = new List(); $$->push_back($1); }
-      | values value                { $1->push_back($2); }
+      | values value                {                  $1->push_back($2); }
 
 %% /*** Additional Code ***/
 

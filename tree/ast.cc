@@ -18,6 +18,7 @@ namespace io {
     Value::Value(NodeType t) : 
         _type(t) 
     {}
+    Value::~Value() {}
 
     Field::Field(std::string key, Value *value) :
         key(key),

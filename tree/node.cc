@@ -88,7 +88,8 @@ namespace io {
     }
     
     void Node::del(){
-        delete value;
+        if (value)
+            delete value;
     }
 
     std::string Node::str(int i) const {
