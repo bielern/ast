@@ -20,7 +20,7 @@ PARSERFILES=src/parser/parser.cc src/parser/scanner.cc
 #	$(CXX) $(CXXFLAGS) $(OBJECTS)
 
 all:  clean bison flex $(OBJECTS)
-	$(CXX) $(CXXFLAGS) -o test $(OBJECTS)
+	$(CXX) $(CXXFLAGS) -o test/test $(OBJECTS)
 
 bison:
 	bison -Wall -d -t -o src/parser/parser.cc src/parser/parser.yy
@@ -29,4 +29,4 @@ flex:
 	flex -o src/parser/scanner.cc src/parser/scanner.ll 
 
 clean:
-	rm -f $(OBJECTS) $(PARSERFILES) src/test
+	rm -f $(OBJECTS) $(PARSERFILES) test/test

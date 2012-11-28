@@ -1,0 +1,67 @@
+ABSTRACT
+========
+This is a test for a parser for a configuration file for 
+abstract syntax trees (AST). It's written with bison and
+flex.
+
+HOW TO INSTALL AND RUN
+======================
+    make
+    cd test
+    ./test
+    
+FILES
+=====
+
+* test:
+
+- conf.txt: A sample configuration
+
+* In src:
+
+- test.cc: a small test program that reads in the configuration file
+conf.txt and outputs the constructed AST again.
+
+* In src/parser:
+
+- scanner.ll, scanner.h: Contains the lexer, which reads in
+a file and returns tokens and their values. Nicely packed 
+into a class called Scanner.
+
+- parser.yy: Contains the parser, who parses the tokens
+from the Scanner class and interprets it according to a 
+grammer.
+
+- driver.h, driver.cc: Glues together the lexer and the parser.
+Basically the Interface for the whole parser.
+
+* in src/tree:
+
+- ast.h, ast.cc: The actual AST with list, object and simple items.
+
+- node.h, node.cc: The Node class provides an interface for the AST
+and the NodeIterator provides an iterator
+
+- node_operator.h, node_operator.cc: The actual implementation details
+for Node and NodeIterator
+
+
+GRAMMER
+=======
+
+This is the grammer of the configuration file in EBNF:
+    
+    root   = object
+    object = '{' {field} '}'
+    field  = key '=' value
+    key    = WORD
+    value  = item | list | object
+    list   = '[' {value} ']'
+    item   = DOUBLE | INT | STRING
+
+where the terminals are defined in terms of REGEX's
+
+    INT     [0-9]*
+    DOUBLE  [0-9]*\.[0-9]*
+    WORD    [[:alnum:]]*
+    STRING  ["][^"\n]*["]
