@@ -1,13 +1,13 @@
-FLEXOBJ=parser/scanner.o
-BISONOBJ=parser/parser.o
+FLEXOBJ=src/parser/scanner.o
+BISONOBJ=src/parser/parser.o
 
 CXX=g++
 CXXFLAGS=-Wall -g #-o $(NAME)
-PARSEROBJ=$(BISONOBJ) $(FLEXOBJ) parser/driver.o 
-TREEOBJ=tree/ast.o tree/node.o tree/node_operator.o
-OBJECTS=$(TREEOBJ) $(PARSEROBJ) test.o
+PARSEROBJ=$(BISONOBJ) $(FLEXOBJ) src/parser/driver.o 
+TREEOBJ=src/tree/ast.o src/tree/node.o src/tree/node_operator.o
+OBJECTS=$(TREEOBJ) $(PARSEROBJ) src/test.o
 
-PARSERFILES=parser/parser.cc parser/scanner.cc
+PARSERFILES=src/parser/parser.cc src/parser/scanner.cc
 
 #
 #FLEX=flex++
@@ -23,10 +23,10 @@ all:  clean bison flex $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -o test $(OBJECTS)
 
 bison:
-	bison -Wall -d -t -o parser/parser.cc parser/parser.yy
+	bison -Wall -d -t -o src/parser/parser.cc src/parser/parser.yy
 
 flex:
-	flex -o parser/scanner.cc parser/scanner.ll 
+	flex -o src/parser/scanner.cc src/parser/scanner.ll 
 
 clean:
-	rm -f $(OBJECTS) $(PARSERFILES) test
+	rm -f $(OBJECTS) $(PARSERFILES) src/test
