@@ -150,6 +150,17 @@ namespace io {
     void NodeIterator::_end(){
         niOperator->_end();
     }
+
+
+    Root::Root(Value *value) :
+        Node(value)
+    {}
+    Root::Root() :
+        Node(0)
+    {}
+    Root::~Root() {
+        del();
+    }
 }
 
 /*************************

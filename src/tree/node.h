@@ -8,9 +8,11 @@
 //#include "ast.h"
 
 namespace io {
+    // from node_operator.h
     struct NodeOperator;
     struct NodeIterator;
 
+    // from ast.h
     struct Value;
     struct Item;
     struct List;
@@ -20,7 +22,7 @@ namespace io {
     struct Node {
         Node (Value *value);
         Node(); 
-        ~Node();
+        virtual ~Node();
         void _init();
         void operator=(Value *value);
         void operator=(Node &other);
@@ -77,6 +79,12 @@ namespace io {
 
         // Memeber
         NIOperator *niOperator;
+    };
+
+    struct Root : public Node {
+        Root(Value * value);
+        Root();
+        ~Root();
     };
 
 }

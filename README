@@ -40,7 +40,9 @@ Basically the Interface for the whole parser.
 - ast.h, ast.cc: The actual AST with list, object and simple items.
 
 - node.h, node.cc: The Node class provides an interface for the AST
-and the NodeIterator provides an iterator
+and the NodeIterator provides an iterator. The Node doesn't delete 
+the AST to which it is pointed to, while the class Root does,
+when it goes out of scope.
 
 - node_operator.h, node_operator.cc: The actual implementation details
 for Node and NodeIterator

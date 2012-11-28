@@ -9,7 +9,7 @@ int main() {
 
     //io::Object obj_root;
     //io::Node root(&obj_root);
-    io::Node root(0);
+    io::Root root;
     io::Driver driver(root);
 
     std::string filename("conf.txt");
@@ -24,7 +24,7 @@ int main() {
     if (result) {
         std::cout << root << "\n";
     }
-    root.del();
+    //root.del();
 
     return 0;
 }
