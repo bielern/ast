@@ -5,15 +5,21 @@
 #include <iostream>
 #include <string>
 
-#include "ast.h"
+//#include "ast.h"
 
 namespace io {
     struct NodeOperator;
     struct NodeIterator;
+
+    struct Value;
+    struct Item;
+    struct List;
+    struct Object;
+    struct Field;
     
     struct Node {
         Node (Value *value);
-        Node(); // TODO: error, catch somehow
+        Node(); 
         ~Node();
         void _init();
         void operator=(Value *value);

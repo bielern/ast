@@ -5,6 +5,7 @@
 #include <string>
 
 #include "node.h"
+#include "ast.h"
 
 namespace io {
 
