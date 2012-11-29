@@ -26,13 +26,13 @@ namespace io {
     {}
     
     Item::Item(std::string value, bool _string) : 
-        Value(item), 
+        Value(ITEM), 
         _value(value),
         _string(_string)
     {}
     
     List::List() : 
-        Value(list) 
+        Value(LIST) 
     {}
     List::~List(){
         ListContainer::iterator it = _list.begin(),
@@ -61,7 +61,7 @@ namespace io {
     }
     
     Object::Object() : 
-        Value(object) 
+        Value(OBJECT) 
     {}
     Object::~Object(){
         ObjectContainer::iterator it = _fields.begin(),

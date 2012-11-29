@@ -1,3 +1,14 @@
+/**
+ * @file ast.h
+ *
+ * Defines the Abstract Syntax Tree (AST).
+ *
+ * There are simple Leafs (Item), lists (List) and
+ * dictionaries (Object).
+ *
+ * You shouldn't need to include this file, except if you implement
+ * a parser or generator
+ */
 #ifndef AST_H
 #define AST_H
 
@@ -7,24 +18,36 @@
 
 namespace io {
 
+    /**
+     * The different types of nodes
+     */
     enum NodeType {
-        item,
-        object,
-        list
+        ITEM,
+        OBJECT,
+        LIST
     };
     
+    /**
+     * Basic Type
+     */
     struct Value {
         Value(NodeType t);
         virtual ~Value();
         NodeType _type;
     };
     
+    /** 
+     * An Object contains fiels. Though not in this form.
+     */
     struct Field {
         Field(std::string key, Value *value);
         std::string key;
         Value *value;
     };
     
+    /**
+     * The leaf of the AST
+     */
     struct Item : public Value {
         Item(std::string value, bool _string=false);
 
@@ -33,6 +56,9 @@ namespace io {
         bool _string;
     };
     
+    /**
+     * List node of the AST
+     */
     struct List : public Value {
         List();
         ~List();
@@ -46,6 +72,9 @@ namespace io {
         NodeType _listType;
     };
     
+    /**
+     * Object (or dictionary) node of the AST
+     */
     struct Object : public Value {
         Object();
         ~Object();

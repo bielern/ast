@@ -207,7 +207,7 @@ namespace io {
     /* ObjectIterator */
 
     ObjectIterator::ObjectIterator(Object *object) :
-        NIOperator(io::object),
+        NIOperator(io::OBJECT),
         object(object),
         it (0)
     {}
@@ -242,7 +242,7 @@ namespace io {
     /* ListIterator */
 
     ListIterator::ListIterator(List *list) :
-        NIOperator(io::list),
+        NIOperator(io::LIST),
         list(list),
         it (0)
     {}
@@ -269,7 +269,7 @@ namespace io {
     /* ItemIterator */
     
     ItemIterator::ItemIterator(Item *item) :
-        NIOperator(io::item),
+        NIOperator(io::ITEM),
         item(item),
         _at_end(false)
     {}

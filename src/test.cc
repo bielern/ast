@@ -6,6 +6,7 @@
 
 int main() {
 
+    /** Create a root node containing the AST */
     io::Root root;
 
     std::string filename("conf.txt");
@@ -14,7 +15,6 @@ int main() {
     if (result) {
         std::cout << root << "\n";
     }
-    //root.del();
 
     return 0;
 }

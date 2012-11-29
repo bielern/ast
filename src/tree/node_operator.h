@@ -1,3 +1,10 @@
+/**
+ * @file node_operator.h
+ *
+ * Provides the implementation details for the Node class
+ *
+ * You shouldn't need to include this file.
+ */
 #ifndef NODE_OPERATOR_H
 #define NODE_OPERATOR_H
 
@@ -9,6 +16,10 @@
 
 namespace io {
 
+    /**
+     * Interface for the strategies handling the implementation details 
+     * of the Node class
+     */
     struct NodeOperator {
         virtual Node operator[](std::string key);
         virtual Node operator[](unsigned int i);
@@ -65,6 +76,10 @@ namespace io {
 
     /**** ITERATORS  *********/
 
+    /**
+     * Interface for the strategies handling the implementation details 
+     * of the NodeIterator class.
+     */
     struct NIOperator {
         NIOperator(NodeType type);
         virtual void next();

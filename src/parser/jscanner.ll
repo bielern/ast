@@ -1,3 +1,9 @@
+/**
+ * The lexer for the "J"-Format.
+ *
+ * It recognizes, integers, doubles, words, strings
+ * and the signs for objects and lists
+ */
 %{
 #include <iostream>
 #include <string>
@@ -11,10 +17,7 @@ typedef io::JParser::token_type token_type;
  * by default returns 0, which is not of token_type. */
 #define yyterminate() return token::END
 
-/* This disables inclusion of unistd.h, which is not available under Visual C++
- * on Win32. The C++ scanner uses STL streams instead. */
-#define YY_NO_UNISTD_H
-
+/* Save strings without the quotes */
 #define SAVE_STRING \
     yylval->string = new std::string(yytext + 1, yyleng - 2);
 

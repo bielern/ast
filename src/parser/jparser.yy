@@ -1,10 +1,9 @@
-%{ /*** C/C++ Declarations ***/
+%{ 
 
 #include <stdio.h>
 #include <string>
 #include <vector>
 
-// DEBUG
 #include <iostream>
 
 #include "../tree/node.h"
@@ -21,7 +20,7 @@
  * versions. */
 %debug
 %verbose
-%define parse.trace
+/* %define parse.trace */
 
 /* start symbol is named "start" */
 %start root
@@ -63,24 +62,26 @@
     int                 token;
 }
 
-%token			END	     0	"end of file"
-%token			EOL		"end of line"
-%token			IS      "="
-%token			OBJ_START
-%token			OBJ_END
-%token			LST_START
-%token			LST_END
+%token                  END	     0	"end of file"
+%token                  EOL		"end of line"
+%token                  IS      "="
+%token                  OBJ_START
+%token                  OBJ_END
+%token                  LST_START
+%token                  LST_END
+
 %token <string> 	    STRING		"string"
 %token <string> 	    WORD		"word"
 %token <string> 	    DOUBLE		"double"
 %token <string> 	    INT		    "int"
 
-%type <object>  object  fields
-%type <list>    list    values
-%type <field>   field
-%type <string>  key
-%type <value>   item value
+%type <object>          object  fields
+%type <list>            list    values
+%type <field>           field
+%type <string>          key
+%type <value>           item value
 
+/* Only for error recovery */
 %destructor { delete $$; } STRING
 %destructor { delete $$; } DOUBLE
 %destructor { delete $$; } INT

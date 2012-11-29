@@ -1,4 +1,5 @@
 #include <fstream>
+#include <iostream>
 
 #include "input_file.h"
 #include "../tree/node.h"
@@ -21,7 +22,7 @@ namespace io {
                      }
             default: {
                          std::cerr << "ERROR: Unknown Input Format!\n";
-                         break;
+                         return false;
                      }
         }
     }

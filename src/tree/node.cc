@@ -24,17 +24,17 @@ namespace io {
             if (nodeOperator)
                 delete nodeOperator;
             switch(value->_type) {
-                case item: {
+                case ITEM: {
                                Item *item = static_cast<Item *>(value);
                                nodeOperator = new ItemOperator(item);
                                break;
                            }
-                case list: {
+                case LIST: {
                                List *list = static_cast<List *>(value);
                                nodeOperator = new ListOperator(list);
                                break;
                            }
-                case object: {
+                case OBJECT: {
                                Object *object = static_cast<Object *>(value);
                                nodeOperator = new ObjectOperator(object);
                                break;

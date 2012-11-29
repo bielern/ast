@@ -6,11 +6,10 @@
 
 
 namespace io {
-    // forward declaration
     struct Node;
 
-    /** The Driver class brings together all components. It creates an instance of
-     * the Parser and Scanner classes and connects them. Then the input stream is
+    /** The JDriver class brings together all components. It creates an instance of
+     * the JParser and JScanner classes and connects them. Then the input stream is
      * fed into the scanner object and the parser gets it's token
      * sequence. Furthermore the driver object is available in the grammar rules as
      * a parameter. Therefore the driver class contains a reference to the
