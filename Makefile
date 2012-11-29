@@ -3,7 +3,7 @@ BISONOBJ=src/parser/jparser.o
 
 CXX=g++
 CXXFLAGS=-Wall -g #-o $(NAME)
-PARSEROBJ=$(BISONOBJ) $(FLEXOBJ) src/parser/jdriver.o 
+PARSEROBJ=$(BISONOBJ) $(FLEXOBJ) src/parser/jdriver.o src/parser/input_file.o
 TREEOBJ=src/tree/ast.o src/tree/node.o src/tree/node_operator.o
 OBJECTS=$(TREEOBJ) $(PARSEROBJ) src/test.o
 

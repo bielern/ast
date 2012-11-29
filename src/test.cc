@@ -1,26 +1,16 @@
 #include <iostream>
-#include <fstream>
 #include <string>
 
 #include "tree/node.h"
-#include "parser/jdriver.h"
+#include "parser/input_file.h"
 
 int main() {
 
-    //io::Object obj_root;
-    //io::Node root(&obj_root);
     io::Root root;
-    io::JDriver driver(root);
 
     std::string filename("conf.txt");
 
-    std::fstream infile(filename.c_str());
-    if (!infile.good()) {
-        std::cerr << "Could not open file: " << filename << std::endl;
-        return 0;
-    }
-
-    bool result = driver.parse_stream(infile, filename);
+    bool result = io::read_input(filename, root);
     if (result) {
         std::cout << root << "\n";
     }
