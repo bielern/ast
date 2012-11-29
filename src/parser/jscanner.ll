@@ -1,7 +1,7 @@
 %{
 #include <iostream>
 #include <string>
-#include "scanner.h"
+#include "jscanner.h"
 
 /* import the parser's token type into a local typedef */
 typedef io::JParser::token token;
@@ -86,17 +86,17 @@ COMMENT     {COMMENT_SGN}[^\n]*\n
 
 namespace io {
 
-Scanner::Scanner(std::istream* in,
+JScanner::JScanner(std::istream* in,
 		 std::ostream* out)
     : JFlexLexer(in, out)
 {
 }
 
-Scanner::~Scanner()
+JScanner::~JScanner()
 {
 }
 
-void Scanner::set_debug(bool b)
+void JScanner::set_debug(bool b)
 {
     yy_flex_debug = b;
 }

@@ -3,14 +3,14 @@
 #include <string>
 
 #include "tree/node.h"
-#include "parser/driver.h"
+#include "parser/jdriver.h"
 
 int main() {
 
     //io::Object obj_root;
     //io::Node root(&obj_root);
     io::Root root;
-    io::Driver driver(root);
+    io::JDriver driver(root);
 
     std::string filename("conf.txt");
 

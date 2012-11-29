@@ -49,7 +49,7 @@
 /* The driver is passed by reference to the parser and to the scanner. This
  * provides a simple but effective pure interface, not relying on global
  * variables. */
-%parse-param { class Driver& driver }
+%parse-param { class JDriver& driver }
 
 /* verbose error messages */
 %error-verbose
@@ -96,8 +96,8 @@
 
 %{
 
-#include "driver.h"
-#include "scanner.h"
+#include "jdriver.h"
+#include "jscanner.h"
 
 /* this "connects" the bison parser in the driver to the flex scanner class
  * object. it defines the yylex() function call to pull the next token from the

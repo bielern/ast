@@ -1,5 +1,5 @@
-#ifndef DRIVER_H
-#define DRIVER_H
+#ifndef JDRIVER_H
+#define JDRIVER_H
 
 #include <string>
 #include <vector>
@@ -15,11 +15,11 @@ namespace io {
      * sequence. Furthermore the driver object is available in the grammar rules as
      * a parameter. Therefore the driver class contains a reference to the
      * structure into which the parsed data is saved. */
-    class Driver
+    class JDriver
     {
         public:
             /// construct a new parser driver context
-            Driver(class Node& root);
+            JDriver(class Node& root);
 
             /// enable debug output in the flex scanner
             bool trace_scanning;
@@ -67,7 +67,7 @@ namespace io {
 
             /** Pointer to the current lexer instance, this is used to connect the
              * parser to the scanner. It is used in the yylex macro. */
-            class Scanner* lexer;
+            class JScanner* lexer;
 
             /** Reference to the calculator context filled during parsing of the
              * expressions. */
@@ -76,5 +76,5 @@ namespace io {
 
 } // namespace io
 
-#endif // DRIVER_H
+#endif // JDRIVER_H
 
