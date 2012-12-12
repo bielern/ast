@@ -14,6 +14,7 @@ int main() {
     bool result = io::read_input(filename, root);
     if (result) {
         std::cout << root << "\n";
+        std::cout << "// subobj.newkey = " << root("subobj.newkey", ".") << std::endl;
     }
 
     return 0;

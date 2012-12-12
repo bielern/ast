@@ -40,14 +40,50 @@ namespace io {
         void _init();
         void operator=(Value *value);
         void operator=(Node &other);
+        /////////////////////////////////////////
+        // For Object
+        /**
+         * Acces value with key
+         */
         Node operator[](std::string key);
+        /**
+         * Access value with path, where key are seperated by seperator
+         */
+        Node operator()(std::string key, std::string seperator);
+        /**
+         * Add key value pair to object.
+         */
+        void push_back(std::string key, Value *value);
+        /**
+         * Add key value pair in form of a field to object.
+         */
+        void push_back(Field *field);
+
+        /////////////////////////////////////////
+        // For List
+        /**
+         * Access value with index i
+         */
         Node operator[](unsigned int i);
+        /**
+         * Add a value
+         */
+        void push_back(Value *value);
+
+        /////////////////////////////////////////
+        // For Item
+        /**
+         * Set the value
+         */
         template<typename T>
         void set(T value){
             std::stringstream ss;
             ss << value;
             _set(ss.str());
         }
+        /**
+         * Get the value
+         */
         template<typename T>
         T get(){
             std::stringstream ss(_get());
@@ -58,17 +94,17 @@ namespace io {
         void _set(std::string &value);
         std::string _get();
     
-        void push_back(std::string key, Value *value);
-        void push_back(Field *field);
-        void push_back(Value *value);
-
+        /////////////////////////////////////////
+        // Iterator stuff
         typedef NodeIterator iterator;
         iterator begin();
         iterator end();
         unsigned int size();
     
+        // delete ast
         void del();
 
+        // For output
         std::string str(int i) const;
     
         // Memeber

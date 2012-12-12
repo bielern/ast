@@ -7,6 +7,9 @@
 
 namespace io {
 
+    /***************************
+     * NODE
+     ***************************/
     Node::Node (Value *value) : 
         nodeOperator(0),
         value(value) {
@@ -55,6 +58,9 @@ namespace io {
     }
     Node Node::operator[](std::string key){
         return (*nodeOperator)[key];
+    }
+    Node Node::operator()(std::string key, std::string seperator){
+        return (*nodeOperator)(key, seperator);
     }
     Node Node::operator[](unsigned int i){
         return (*nodeOperator)[i];

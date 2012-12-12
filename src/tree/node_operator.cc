@@ -8,6 +8,10 @@ namespace io {
         std::cerr << "Operator[](string) not implemented for this type!\n";
         return Node(0);
     }
+    Node NodeOperator::operator()(std::string key, std::string seperator){
+        std::cerr << "Operator()(key, seperator) not implemented for this type!\n";
+        return Node(0);
+    }
     Node NodeOperator::operator[](unsigned int i){
         std::cerr << "Operator[](int) not implemented for this type!\n";
         return Node(0);
@@ -85,6 +89,18 @@ namespace io {
     ObjectOperator::ObjectOperator(Object *object) : object(object) {}
     Node ObjectOperator::operator[](std::string key){
         return Node((*object)[key]);
+    }
+    Node ObjectOperator::operator()(std::string key, std::string seperator){
+        size_t pos = key.find(seperator);
+        if (pos == key.length() - seperator.length()){
+            return Node((*object)[key.substr(0, pos)]);
+        }
+        if (pos == key.npos){
+            return Node((*object)[key]);
+        } else {
+            return (*this)[key.substr(0, pos)]
+                (key.substr(pos + seperator.length()), seperator);
+        }
     }
     void ObjectOperator::push_back(std::string key, Value *value){
         object->push_back(key, value);

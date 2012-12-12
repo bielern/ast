@@ -22,6 +22,7 @@ namespace io {
      */
     struct NodeOperator {
         virtual Node operator[](std::string key);
+        virtual Node operator()(std::string key, std::string seperator);
         virtual Node operator[](unsigned int i);
         virtual void set(std::string value);
         virtual std::string get();
@@ -52,6 +53,7 @@ namespace io {
     struct ObjectOperator : public NodeOperator {
         ObjectOperator(Object *object);
         Node operator[](std::string key);
+        Node operator()(std::string key, std::string seperator);
         void push_back(std::string key, Value *value);
         void push_back(Field *field);
         Node::iterator begin() const;
