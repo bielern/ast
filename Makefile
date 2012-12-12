@@ -1,32 +1,32 @@
-FLEXOBJ=src/parser/jscanner.o
-BISONOBJ=src/parser/jparser.o
+LEX=flex
+LEXOBJ=src/parser/jscanner.o
+LEXSOURCE=src/parser/jscanner.ll
+LEXFILES=src/parser/jscanner.cc
+LFLAGS=-o $(LEXFILES)
+YACC=bison
+YACCOBJ=src/parser/jparser.o
+YACCFILES=src/parser/jparser.cc
+YACCSOURCE=src/parser/jparser.yy
+YFLAGS=-Wall -d  -o $(YACCFILES)
 
 CXX=g++
 CXXFLAGS=-Wall -g #-o $(NAME)
-PARSEROBJ=$(BISONOBJ) $(FLEXOBJ) src/parser/jdriver.o src/parser/input_file.o
+PARSEROBJ=$(YACCOBJ) $(LEXOBJ) src/parser/jdriver.o src/parser/input_file.o
 TREEOBJ=src/tree/ast.o src/tree/node.o src/tree/node_operator.o
-OBJECTS=$(TREEOBJ) $(PARSEROBJ) src/test.o
+OBJECTS=$(PARSEROBJ) $(TREEOBJ) src/test.o
 
 PARSERFILES=src/parser/jparser.cc src/parser/jscanner.cc
 
-#
-#FLEX=flex++
-#FLEXSOURCE=tokens.l
-#
-#token:
-#	$(FLEX) $(FLEXSOURCE)
-#
-#main: $(OBJECTS)
-#	$(CXX) $(CXXFLAGS) $(OBJECTS)
-
-all:  clean bison flex $(OBJECTS)
+all:  clean $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -o test/test $(OBJECTS)
 
-bison:
-	bison -Wall -d -t -o src/parser/jparser.cc src/parser/jparser.yy
+$(LEXFILES): $(YACCFILES) $(LEXSOURCE)
+	$(LEX) $(LFLAGS) $(LEXSOURCE)
 
-flex:
-	flex -o src/parser/jscanner.cc src/parser/jscanner.ll 
+$(YACCFILES): $(YACCSOURCE)
+	$(YACC) $(YFLAGS) $(YACCSOURCE)
+
+.PHONY: clean
 
 clean:
 	rm -f $(OBJECTS) $(PARSERFILES) test/test
