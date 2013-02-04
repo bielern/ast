@@ -1,0 +1,86 @@
+VPATH=../
+
+LEX=flex
+YACC=bison
+YFLAGS=-Wall -d
+
+parser_files = jparser.cc 
+lexer_files = jscanner.cc
+header_files = jscanner.h jdriver.h input_file.h
+source_files = input_file.cc jdriver.cc
+include_dir = ../tree
+
+# For cleaning and such
+all_files = $(parser_files) $(lexer_files) $(header_files) $(source_files)
+
+all: $(header_files) \
+     $(parser_files) \
+	 $(lexer_files) \
+	 $(source_files) \
+	 $(include_dir)
+
+.PHONY: clean
+
+clean: 
+	rm -f $(all_files)
+	rm -f *.hh *.output
+	rm -f *.yy 
+	rm -f *.ll 
+	rm -fr $(include_dir)
+
+$(header_files):
+	cp @srcdir@/$@ .
+
+$(parser_files): %.cc: %.yy
+	$(YACC) $(YFLAGS) -o $@ $<
+
+$(lexer_files): %.cc: %.ll
+	$(LEX) -o $@ $<
+
+%.yy:
+	cp @srcdir@/$@ .
+
+%.ll:
+	cp @srcdir@/$@ .
+
+$(source_files):
+	cp @srcdir@/$@ .
+
+$(include_dir):
+	cp -r @srcdir@/$@ `dirname $@`
+
+
+# Some default commands
+distdir:
+	cp $(all_files) $(distdir)
+
+install:
+install-data:
+install-exec:
+installdirs:
+uninstall:
+
+install-dvi:
+install-html:
+install-info:
+install-ps:
+install-pdf:
+
+check:
+installcheck:
+
+mostlyclean: clean
+distclean: clean
+	rm Makefile
+	cd ../ && test -d parser && rmdir parser
+
+maintainer-clean: clean
+
+dvi:
+html:
+info:
+ps:
+pdf:
+
+tags:
+ctags:
