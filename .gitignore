@@ -8,11 +8,7 @@ autoscan.log
 build/
 config.h.in
 configure
-depcomp
-install-sh
-missing
 test/bin/
 test/test
-ylwrap
 Makefile.in
 src/Makefile.in
