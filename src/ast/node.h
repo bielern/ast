@@ -93,21 +93,21 @@ namespace io {
          * Get the value
          */
         template<typename T>
-        T get(){
+        T get() const {
             std::stringstream ss(_get());
             T value;
             ss >> value;
             return value;
         }
         void _set(std::string &value);
-        std::string _get();
+        std::string _get() const;
     
         /////////////////////////////////////////
         // Iterator stuff
         typedef NodeIterator iterator;
-        iterator begin();
-        iterator end();
-        unsigned int size();
+        iterator begin() const;
+        iterator end() const;
+        unsigned int size() const;
     
         // delete ast
         void del();
@@ -157,6 +157,7 @@ namespace io {
      */
     struct Root : public Node {
         Root(Value * value);
+        Root(const Node &n);
         Root();
         ~Root();
     };

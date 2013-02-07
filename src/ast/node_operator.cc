@@ -170,17 +170,24 @@ namespace io {
         std::stringstream ss;
         ss << "[";
         if (size() > 0){
-            ss <<  std::endl;
             Node::iterator it = begin(),
                 to = end();
-            for (; it != to; ++it){
-                for (int j = 0; j < i; j++){
+            if (list->_listType == ITEM){
+                ss << " ";
+                for (; it != to; ++it){
+                    ss << it << " ";
+                }
+            } else {
+                ss <<  std::endl;
+                for (; it != to; ++it){
+                    for (int j = 0; j < i; j++){
+                        ss << " ";
+                    }
+                    ss <<  it.str(i+1) << std::endl;
+                }
+                for (int j = 1; j < i; j++){
                     ss << " ";
                 }
-                ss <<  it.str(i+1) << std::endl;
-            }
-            for (int j = 1; j < i; j++){
-                ss << " ";
             }
         }
         ss << "]";

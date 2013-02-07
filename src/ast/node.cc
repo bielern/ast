@@ -82,20 +82,20 @@ namespace io {
         nodeOperator->push_back(node.value);
     }
 
-    Node::iterator Node::begin(){
+    Node::iterator Node::begin() const{
         return nodeOperator->begin();
     }
-    Node::iterator Node::end(){
+    Node::iterator Node::end() const{
         return nodeOperator->end();
     }
-    unsigned int Node::size(){
+    unsigned int Node::size() const{
         return nodeOperator->size();
     }
 
     void Node::_set(std::string &value){
         nodeOperator->set(value);
     }
-    std::string Node::_get(){
+    std::string Node::_get() const {
         return nodeOperator->get();
     }
     
@@ -166,6 +166,9 @@ namespace io {
 
     Root::Root(Value *value) :
         Node(value)
+    {}
+    Root::Root(const Node &n) :
+        Node(n.value)
     {}
     Root::Root() :
         Node(0)
