@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-#include "tree/node.h"
+#include "ast/node.h"
 #include "parser/input_file.h"
 
 int main() {

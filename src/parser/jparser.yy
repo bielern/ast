@@ -6,8 +6,8 @@
 
 #include <iostream>
 
-#include "tree/node.h"
-#include "tree/ast.h"
+#include "ast/node.h"
+#include "ast/ast.h"
 
 %}
 

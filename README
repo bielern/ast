@@ -38,7 +38,7 @@ grammer.
 - driver.h, driver.cc: Glues together the lexer and the parser.
 Basically the Interface for the whole parser.
 
-* in src/tree:
+* in src/ast:
 
 - ast.h, ast.cc: The actual AST with list, object and simple items.
 

@@ -4,7 +4,7 @@
 #include "jdriver.h"
 #include "jscanner.h"
 
-#include "../tree/node.h"
+#include "../ast/node.h"
 
 namespace io {
 

@@ -7,7 +7,7 @@ iotest_SOURCES = test.cc\
 			   parser/jscanner.cc\
 			   parser/jdriver.cc\
 			   parser/input_file.cc\
-			   tree/ast.cc\
-			   tree/node.cc\
-			   tree/node_operator.cc
+			   ast/ast.cc\
+			   ast/node.cc\
+			   ast/node_operator.cc
 

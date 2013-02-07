@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "input_file.h"
-#include "../tree/node.h"
+#include "../ast/node.h"
 #include "jdriver.h"
 
 namespace io {
