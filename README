@@ -6,9 +6,12 @@ flex.
 
 HOW TO INSTALL AND RUN
 ======================
-    make
-    cd test
-    ./test
+    mkdir build
+    cd build
+    ../configure --prefix=$(pwd)
+    make install
+    cd ../test
+    ../build/bin/iotest
     
 FILES
 =====
