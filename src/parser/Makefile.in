@@ -3,11 +3,15 @@ lexer_files = jscanner.ll
 
 # No need to modify below
 
-all_files = $(bison_files) $(lexer_files)
+all_files = $(bison_files) $(lexer_files) $(lexer_files:.ll=.h)
 
-bison_target = $(bison_files:.yy=.done)
-lexer_target = $(lexer_files:.ll=.done)
+bison_target = $(bison_files:.yy=.cc)
+lexer_target = $(lexer_files:.ll=.cc)
 all_targets = $(bison_target) $(lexer_target)
+
+bison_products = $(addprefix @srcdir@/,$(bison_target))
+lexer_products = $(addprefix @srcdir@/,$(lexer_target))
+all_products = $(bison_products) $(lexer_products)
 
 VPATH=../
 
@@ -16,25 +20,23 @@ YACC=bison
 YFLAGS=-Wall -d
 
 
-all: $(bison_target) \
-	$(lexer_target)
+all: $(bison_products) \
+	 $(lexer_products)
 
-$(bison_target): %.done: @srcdir@/%.yy
-	$(YACC) $(YFLAGS) -o @srcdir@/$(@:.done=.cc) $<
-	touch $@
+$(bison_products): %.cc: %.yy
+	$(YACC) $(YFLAGS) -o $@ $<
 
-$(lexer_target): %.done: @srcdir@/%.ll @srcdir@/%.h
-	$(LEX) -o @srcdir@/$(@:.done=.cc) $<
-	touch $@
+$(lexer_products): %.cc: %.ll %.h
+	$(LEX) -o $@ $<
 
 .PHONY: clean
 
 clean:
-	rm -f $(all_targets)
+	rm -f $(all_products)
 
 # Some default commands
 distdir:
-	cp $(all_files) $(distdir)
+	cp $(addprefix @srcdir@/,$(all_files)) $(distdir)
 
 install: all
 install-data:
