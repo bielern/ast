@@ -13,9 +13,11 @@ int main() {
 
     bool result = io::read_input(filename, root);
     if (result) {
+        root.push_back("mytest", io::mkList());
         std::cout << root << "\n";
         std::cout << "// subobj.newkey = " << root("subobj.newkey", ".") << std::endl;
     }
+
 
     return 0;
 }

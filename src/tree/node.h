@@ -55,6 +55,10 @@ namespace io {
          */
         void push_back(std::string key, Value *value);
         /**
+         * Add a key value (wrapped in a Node) pair to object.
+         */
+        void push_back(std::string key, const Node &node);
+        /**
          * Add key value pair in form of a field to object.
          */
         void push_back(Field *field);
@@ -69,6 +73,10 @@ namespace io {
          * Add a value
          */
         void push_back(Value *value);
+        /**
+         * Add a value wrapped in a Node
+         */
+        void push_back(const Node &node);
 
         /////////////////////////////////////////
         // For Item
@@ -153,6 +161,25 @@ namespace io {
         ~Root();
     };
 
+    // Some Node Factories
+    Node _mkItem(std::string value, bool as_string);
+    /**
+     * Create an item packed in a node
+     */
+    template<typename T>
+    Node mkItem(T value, bool as_string = false) {
+      std::stringstream ss;
+      ss << value;
+      return _mkItem(ss.str(), as_string);
+    }
+    /**
+     * Create a List packed in a List
+     */
+    Node mkList();
+    /**
+     * Create an object packed in a Object
+     */
+    Node mkObject();
 }
 /** 
  * Outputs the AST in the "J"-Format.

@@ -38,7 +38,7 @@ AC_FUNC_REALLOC
 AC_CHECK_FUNCS([memset])
 
 # Change flags
-AC_SUBST([AM_CXXFLAGS], [-Wall])
+AC_SUBST([AM_CXXFLAGS], [-Wall -g])
 AC_SUBST([AM_LEXFLAGS], [-Wall])
 AC_SUBST([AM_YFLAGS], [-Wall])
 AC_SUBST([AM_YACC], [bison])

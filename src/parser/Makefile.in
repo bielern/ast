@@ -1,60 +1,42 @@
+bison_files = jparser.yy 
+lexer_files = jscanner.ll
+
+# No need to modify below
+
+all_files = $(bison_files) $(lexer_files)
+
+bison_target = $(bison_files:.yy=.done)
+lexer_target = $(lexer_files:.ll=.done)
+all_targets = $(bison_target) $(lexer_target)
+
 VPATH=../
 
 LEX=flex
 YACC=bison
 YFLAGS=-Wall -d
 
-parser_files = jparser.cc 
-lexer_files = jscanner.cc
-header_files = jscanner.h jdriver.h input_file.h
-source_files = input_file.cc jdriver.cc
-include_dir = ../tree
 
-# For cleaning and such
-all_files = $(parser_files) $(lexer_files) $(header_files) $(source_files)
+all: $(bison_target) \
+	$(lexer_target)
 
-all: $(header_files) \
-     $(parser_files) \
-	 $(lexer_files) \
-	 $(source_files) \
-	 $(include_dir)
+$(bison_target): %.done: @srcdir@/%.yy
+	$(YACC) $(YFLAGS) -o @srcdir@/$(@:.done=.cc) $<
+	touch $@
+
+$(lexer_target): %.done: @srcdir@/%.ll @srcdir@/%.h
+	$(LEX) -o @srcdir@/$(@:.done=.cc) $<
+	touch $@
 
 .PHONY: clean
 
-clean: 
-	rm -f $(all_files)
-	rm -f *.hh *.output
-	rm -f *.yy 
-	rm -f *.ll 
-	rm -fr $(include_dir)
-
-$(header_files):
-	cp @srcdir@/$@ .
-
-$(parser_files): %.cc: %.yy
-	$(YACC) $(YFLAGS) -o $@ $<
-
-$(lexer_files): %.cc: %.ll
-	$(LEX) -o $@ $<
-
-%.yy:
-	cp @srcdir@/$@ .
-
-%.ll:
-	cp @srcdir@/$@ .
-
-$(source_files):
-	cp @srcdir@/$@ .
-
-$(include_dir):
-	cp -r @srcdir@/$@ `dirname $@`
-
+clean:
+	rm -f $(all_targets)
 
 # Some default commands
 distdir:
 	cp $(all_files) $(distdir)
 
-install:
+install: all
 install-data:
 install-exec:
 installdirs:
@@ -84,3 +66,4 @@ pdf:
 
 tags:
 ctags:
+

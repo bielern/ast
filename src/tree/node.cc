@@ -69,11 +69,17 @@ namespace io {
     void Node::push_back(std::string key, Value *value){
         nodeOperator->push_back(key, value);
     }
+    void Node::push_back(std::string key, const Node &node){
+        nodeOperator->push_back(key, node.value);
+    }
     void Node::push_back(Field *field){
         nodeOperator->push_back(field);
     }
     void Node::push_back(Value *value){
         nodeOperator->push_back(value);
+    }
+    void Node::push_back(const Node &node){
+        nodeOperator->push_back(node.value);
     }
 
     Node::iterator Node::begin(){
@@ -166,6 +172,19 @@ namespace io {
     {}
     Root::~Root() {
         del();
+    }
+
+    Node _mkItem(std::string value, bool as_string){
+      Item *i = new Item(value, as_string);
+      return Node(i);
+    }
+    Node mkList(){
+      List *l = new List();
+      return Node(l);
+    }
+    Node mkObject(){
+      Object *o = new Object();
+      return Node(o);
     }
 }
 
