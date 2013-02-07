@@ -56,13 +56,13 @@ namespace io {
         this->value = value;
         _init();
     }
-    Node Node::operator[](std::string key){
+    Node Node::operator[](std::string key) const{
         return (*nodeOperator)[key];
     }
     Node Node::operator()(std::string key, std::string seperator){
         return (*nodeOperator)(key, seperator);
     }
-    Node Node::operator[](unsigned int i){
+    Node Node::operator[](unsigned int i) const{
         return (*nodeOperator)[i];
     }
     

@@ -45,7 +45,7 @@ namespace io {
         /**
          * Acces value with key
          */
-        Node operator[](std::string key);
+        Node operator[](std::string key) const;
         /**
          * Access value with path, where key are seperated by seperator
          */
@@ -68,7 +68,7 @@ namespace io {
         /**
          * Access value with index i
          */
-        Node operator[](unsigned int i);
+        Node operator[](unsigned int i) const;
         /**
          * Add a value
          */

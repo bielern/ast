@@ -39,8 +39,8 @@ namespace math {
 
         protected:
             NVector();
-            double *_data;
             unsigned int _length;
+            double *_data;
 
     };
 

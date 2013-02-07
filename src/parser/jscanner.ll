@@ -53,7 +53,7 @@ typedef io::JParser::token_type token_type;
 
 INT         [0-9]*
 DOUBLE      [0-9]*\.[0-9]*([eE][+-]?{INT})?
-WORD        [[:alnum:]]*
+WORD        [[:alnum:]_]*
 STRING      ["][^"\n]*["] 
     /*"*/
 IS          "="

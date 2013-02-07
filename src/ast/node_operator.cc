@@ -48,7 +48,7 @@ namespace io {
     }
 
     std::string NodeOperator::str(int i) const{
-        return std::string("Not implemendted");
+        return std::string("Not implemented");
     }
 
     /* ItemOperator */

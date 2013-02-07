@@ -20,8 +20,7 @@ namespace math {
             _data[i] = init[i];
         }
     }
-    NVector::NVector(const io::Node &n)
-    {
+    NVector::NVector(const io::Node &n){
         _length = n.size();
         _data = new double[_length];
         io::NodeIterator it = n.begin(),
