@@ -34,6 +34,7 @@ namespace io {
         virtual Node::iterator begin() const;
         virtual Node::iterator end() const;
         virtual unsigned int size() const ;
+        virtual bool contains(std::string key) const;
 
         virtual std::string str(int i) const;
     };
@@ -59,6 +60,7 @@ namespace io {
         Node::iterator begin() const;
         Node::iterator end() const;
         unsigned int size() const ;
+        bool contains(std::string key) const ;
         std::string str(int i) const;
         // Member
         Object *object;

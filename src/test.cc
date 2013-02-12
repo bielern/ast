@@ -27,6 +27,9 @@ int main() {
         //io::Root r = vec.toAST();
         //std::cout << "// add 1: " << r << std::endl;
         std::cout << "// add 1: " << result << std::endl;
+
+        std::vector<double> myvec;
+        myvec = root.asList("vec", myvec);
     }
 
 

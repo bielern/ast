@@ -91,6 +91,9 @@ namespace io {
     unsigned int Node::size() const{
         return nodeOperator->size();
     }
+    bool Node::contains(std::string key) const{
+      return nodeOperator->contains(key);
+    }
 
     void Node::_set(std::string &value){
         nodeOperator->set(value);

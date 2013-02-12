@@ -46,6 +46,10 @@ namespace io {
         std::cerr << "Function size not implemented for this type!\n";
         return 0;
     }
+    bool NodeOperator::contains(std::string key) const {
+        std::cerr << "Function contains not implemented for this type!\n";
+        return false;
+    }
 
     std::string NodeOperator::str(int i) const{
         return std::string("Not implemented");
@@ -120,6 +124,9 @@ namespace io {
     }
     unsigned int ObjectOperator::size() const {
         return object->_fields.size();
+    }
+    bool ObjectOperator::contains(std::string key) const {
+        return object->_fields.count(key) > 0;
     }
 
     std::string ObjectOperator::str(int i) const{

@@ -23,6 +23,16 @@ namespace io {
     struct Object;
     struct Field;
     
+    class Node;
+    /**
+     * Create a List packed in a List
+     */
+    Node mkList();
+    /**
+     * Create an object packed in a Object
+     */
+    Node mkObject();
+
     /**
      * @class Node
      * The Node class provides an interface to access the nodes
@@ -34,6 +44,15 @@ namespace io {
      * class and its deerived classes (Strategy Pattern).
      */
     struct Node {
+        /////////////////////////////////////////
+        // Iterator stuff
+        typedef NodeIterator iterator;
+        iterator begin() const;
+        iterator end() const;
+        unsigned int size() const;
+    
+        /////////////////////////////////////////
+        // Constructors
         Node (Value *value);
         Node(); 
         virtual ~Node();
@@ -62,6 +81,52 @@ namespace io {
          * Add key value pair in form of a field to object.
          */
         void push_back(Field *field);
+        /**
+         * Easy adding function.
+         */
+        template<typename T>
+        void add(std::string key, const T value, bool asString=false){
+          push_back(key, mkItem(value, asString));
+        }
+        template<typename T>
+        void addList(std::string key, const T &list, bool asString=false){
+          push_back(key, mkList());
+          int num = list.size();
+          for (int i = 0; i < num; i++){
+            (*this)[key].push_back(mkItem(list[i], asString));
+          }
+        }
+        /**
+         * Test if Object contains field with key
+         */
+        bool contains(std::string key) const;
+        /**
+         * Getter with fall back variant
+         */
+        template<typename T>
+        T get(std::string key, T fallBack) const {
+          if (contains(key)){
+            return (*this)[key].get<T>();
+          } else {
+            return fallBack;
+          }
+        }
+        /**
+         * Return the node at key as a std::vector
+         */
+        template<typename T>
+        T asList(std::string key, const T &fallBack) const {
+          if (contains(key)){
+            T result;
+            int num = (*this)[key].size();
+            for (int i = 0; i < num; i++){
+              result.push_back((*this)[key][i].get<typename T::value_type>());
+            }
+            return result;
+          } else {
+            return fallBack;
+          }
+        }
 
         /////////////////////////////////////////
         // For List
@@ -101,13 +166,6 @@ namespace io {
         }
         void _set(std::string &value);
         std::string _get() const;
-    
-        /////////////////////////////////////////
-        // Iterator stuff
-        typedef NodeIterator iterator;
-        iterator begin() const;
-        iterator end() const;
-        unsigned int size() const;
     
         // delete ast
         void del();
@@ -173,14 +231,6 @@ namespace io {
       ss << value;
       return _mkItem(ss.str(), as_string);
     }
-    /**
-     * Create a List packed in a List
-     */
-    Node mkList();
-    /**
-     * Create an object packed in a Object
-     */
-    Node mkObject();
 }
 /** 
  * Outputs the AST in the "J"-Format.
