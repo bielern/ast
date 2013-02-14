@@ -17,8 +17,8 @@ int main() {
         root.push_back("mytest", io::mkList());
 
         math::NVector add(4, 1.0);
-        io::Node nvec = root["vec"];
-        math::NVector vec(nvec);
+        math::NVector vec(0);
+        vec = root.getNVector("vec", vec);
         math::NVector result = add + vec;
         //math::NVector result = vec;
         std::cout << root << "\n";
@@ -28,8 +28,8 @@ int main() {
         //std::cout << "// add 1: " << r << std::endl;
         std::cout << "// add 1: " << result << std::endl;
 
-        std::vector<double> myvec;
-        myvec = root.asList("vec", myvec);
+        std::vector<int> myvec;
+        myvec = root.getVector("vec", myvec);
     }
 
 

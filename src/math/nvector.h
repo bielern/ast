@@ -1,3 +1,6 @@
+#ifndef NVECTOR_H
+#define NVECTOR_H
+
 #include <vector>
 #include <iostream>
 #include <string>
@@ -52,3 +55,5 @@ namespace math {
     NVector operator/(NVector lhs, const NVector &rhs);
 }
 std::ostream & operator<< (std::ostream &out, const math::NVector &n);
+
+#endif

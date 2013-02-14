@@ -81,6 +81,18 @@ namespace io {
     void Node::push_back(const Node &node){
         nodeOperator->push_back(node.value);
     }
+    math::NVector Node::getNVector(std::string key, const math::NVector &fallBack) const{
+        if (contains(key)){
+            std::vector<double> result;
+            result = getVector(key, result);
+            return math::NVector(result);
+        } else {
+            return fallBack;
+        }
+    }
+    void Node::addNVector(std::string key, const math::NVector &vector){
+        push_back(key, vector.toAST());
+    }
 
     Node::iterator Node::begin() const{
         return nodeOperator->begin();

@@ -10,6 +10,9 @@
 #include <sstream>
 #include <iostream>
 #include <string>
+#include <vector>
+
+#include "../math/nvector.h"
 
 namespace io {
     // from node_operator.h
@@ -88,14 +91,43 @@ namespace io {
         void add(std::string key, const T value, bool asString=false){
           push_back(key, mkItem(value, asString));
         }
+        /**
+         * Add a vector of simple values (ints, doubles etc.)
+         */
         template<typename T>
-        void addList(std::string key, const T &list, bool asString=false){
+        void addVector(std::string key, const std::vector<T> &list, bool asString=false){
           push_back(key, mkList());
           int num = list.size();
           for (int i = 0; i < num; i++){
             (*this)[key].push_back(mkItem(list[i], asString));
           }
         }
+        /**
+         * add List of object capable of creating a AST (with a boolean parameter)
+         */
+        template<typename T>
+        void addList(std::string key, const std::vector<T> &list, bool topoIncluded){
+          push_back(key, mkList());
+          int num = list.size();
+          for (int i = 0; i < num; i++){
+            (*this)[key].push_back(list[i].toAST(topoIncluded));
+          }
+        }
+        /**
+         * add List of object capable of creating a AST
+         */
+        template<typename T>
+        void addList(std::string key, const std::vector<T> &list){
+          push_back(key, mkList());
+          int num = list.size();
+          for (int i = 0; i < num; i++){
+            (*this)[key].push_back(list[i].toAST());
+          }
+        }
+        /**
+         * Add a NVector
+         */
+        void addNVector(std::string key, const math::NVector &vector);
         /**
          * Test if Object contains field with key
          */
@@ -115,18 +147,22 @@ namespace io {
          * Return the node at key as a std::vector
          */
         template<typename T>
-        T asList(std::string key, const T &fallBack) const {
+        std::vector<T> getVector(std::string key, const std::vector<T> &fallBack) const {
           if (contains(key)){
-            T result;
+            std::vector<T> result;
             int num = (*this)[key].size();
             for (int i = 0; i < num; i++){
-              result.push_back((*this)[key][i].get<typename T::value_type>());
+              result.push_back((*this)[key][i].get<T>());
             }
             return result;
           } else {
             return fallBack;
           }
         }
+        /**
+         * Get a NVector
+         */
+        math::NVector getNVector(std::string key, const math::NVector &fallBack) const;
 
         /////////////////////////////////////////
         // For List
